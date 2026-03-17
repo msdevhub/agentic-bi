@@ -1,5 +1,6 @@
 /** Agentic BI 助手 - 主应用（支持多轮对话 + Self-Correction + 反问澄清 + 建议点击） */
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
+import { useLogto } from '@logto/react';
 import ChatPanel from './components/ChatPanel';
 import ReasoningChain from './components/ReasoningChain';
 import ResultPanel from './components/ResultPanel';
@@ -13,12 +14,25 @@ interface Message {
 }
 
 export default function App() {
+  const { signOut, getIdTokenClaims } = useLogto();
+  const [userName, setUserName] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentSteps, setCurrentSteps] = useState<StepEvent[]>([]);
   const [page, setPage] = useState<'chat' | 'config'>('chat');
   const [pendingInput, setPendingInput] = useState('');
   const sessionIdRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    getIdTokenClaims().then(claims => {
+      if (claims) {
+        const name = (claims as Record<string, unknown>)['name'] as string | undefined
+          || (claims as Record<string, unknown>)['username'] as string | undefined
+          || claims.sub;
+        setUserName(name || '');
+      }
+    }).catch(() => {});
+  }, [getIdTokenClaims]);
 
   const handleSend = useCallback(async (message: string) => {
     setPendingInput('');
@@ -143,6 +157,8 @@ export default function App() {
             <button onClick={handleNewChat} style={styles.newChatBtn}>+ 新对话</button>
           )}
           <button onClick={() => setPage('config')} style={styles.configBtn}>⚙️ 系统配置</button>
+          {userName && <span style={styles.userName}>👤 {userName}</span>}
+          <button onClick={() => void signOut(window.location.origin)} style={styles.logoutBtn}>退出</button>
         </div>
       </header>
       <main style={styles.main}>
@@ -192,6 +208,19 @@ const styles: Record<string, React.CSSProperties> = {
     background: 'none',
     border: '1px solid #313244',
     color: '#a6adc8',
+    borderRadius: 6,
+    padding: '4px 12px',
+    fontSize: 12,
+    cursor: 'pointer',
+  },
+  userName: {
+    fontSize: 12,
+    color: '#a6e3a1',
+  },
+  logoutBtn: {
+    background: 'none',
+    border: '1px solid #f38ba8',
+    color: '#f38ba8',
     borderRadius: 6,
     padding: '4px 12px',
     fontSize: 12,
