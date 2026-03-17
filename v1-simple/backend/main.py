@@ -15,9 +15,9 @@ from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 from sse_starlette.sse import EventSourceResponse
 
-from .skills import general_query, year_over_year, top_n, trend  # noqa: F401
-from .skills import loss_ratio, claim_analysis, customer_profile, product_mix, channel_performance  # noqa: F401
-from .skills.registry import registry
+from skills import general_query, year_over_year, top_n, trend  # noqa: F401
+from skills import loss_ratio, claim_analysis, customer_profile, product_mix, channel_performance  # noqa: F401
+from skills.registry import registry
 from .agents.router import RouterAgent, ROUTER_SYSTEM_PROMPT
 from .agents.executor import ExecutorAgent
 from .agents.reviewer import ReviewerAgent, REVIEWER_SYSTEM_PROMPT
