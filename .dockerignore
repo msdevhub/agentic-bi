@@ -1,0 +1,9 @@
+node_modules
+.git
+*.log
+.env*
+.vscode
+__pycache__
+*.pyc
+v1-simple/frontend/node_modules
+v1-simple/frontend/dist
