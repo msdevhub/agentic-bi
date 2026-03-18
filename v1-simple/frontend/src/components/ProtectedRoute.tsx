@@ -1,4 +1,4 @@
-import { useLogto } from '@logto/react';
+import { useAppAuth } from '../auth';
 import React from 'react';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function ProtectedRoute({ children, redirectUri = window.location.origin + '/callback' }: Props) {
-  const { isAuthenticated, isLoading, signIn } = useLogto();
+  const { isAuthenticated, isLoading, signIn } = useAppAuth();
 
   if (isLoading) {
     return (
