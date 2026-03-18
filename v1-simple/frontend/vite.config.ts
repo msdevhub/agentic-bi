@@ -9,13 +9,12 @@ export default defineConfig({
     allowedHosts: [
       'bi.clawlines.net',
       'bi.dora.restry.cn',
-      'dev.dora.restry.cn',
       'localhost',
       '127.0.0.1'
     ],
     proxy: {
       '/api': {
-        target: 'http://localhost:18817',
+        target: 'http://localhost:8899',
         changeOrigin: true
       }
     },

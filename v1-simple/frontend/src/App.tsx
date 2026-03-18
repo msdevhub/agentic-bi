@@ -1,6 +1,6 @@
 /** Agentic BI 助手 - 主应用（支持多轮对话 + Self-Correction + 反问澄清 + 建议点击） */
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { useAppAuth } from './auth';
+import { useLogto } from '@logto/react';
 import ChatPanel from './components/ChatPanel';
 import ReasoningChain from './components/ReasoningChain';
 import ResultPanel from './components/ResultPanel';
@@ -14,7 +14,7 @@ interface Message {
 }
 
 export default function App() {
-  const { signOut, getIdTokenClaims } = useAppAuth();
+  const { signOut, getIdTokenClaims } = useLogto();
   const [userName, setUserName] = useState<string>('');
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
