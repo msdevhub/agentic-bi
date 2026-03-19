@@ -7,6 +7,7 @@ export default defineConfig({
     host: true,
     port: 5173,
     allowedHosts: [
+      'bi.dev.dora.restry.cn',
       'bi.clawlines.net',
       'bi.dora.restry.cn',
       'localhost',
